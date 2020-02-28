@@ -53,6 +53,7 @@ class RandomNs:
 					sub = self.get_random(limit)
 					
 					if sub not in note:
+						note.append(sub)
 						break
 
 
