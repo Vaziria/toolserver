@@ -1,1 +1,10 @@
-cg.newswire.id
+# ip: 90.1.2.3
+
+test.xyz
+asdasdasdasd.xyz
+
+
+# ip: 90.23.34.3
+
+asdasd.xyz
+atry.xyz
