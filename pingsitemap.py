@@ -4,6 +4,8 @@ monkey.patch_all()
 
 from gevent.pool import Pool
 import requests
+import time
+from glob import glob
 
 from vazutils.logger import Logger
 from vazutils.useragent import _useragent
@@ -16,9 +18,14 @@ class PingSitemap:
 
 	thread_count = 10
 	path_sitemap = '/sitemap.xml'
+	iterable_data = None
 
 	def __init__(self, filename):
-		self.file = FileFormat(filename, [], [ 'domain' ])
+
+		if filename == 'note':
+			self.file = glob('note/*.txt')
+		else:
+			self.file = FileFormat(filename, [], [ 'domain' ])
 
 
 	def ping(self, url):
@@ -45,15 +52,63 @@ class PingSitemap:
 		return req.status_code == 200
 
 
+	def get_task(self):
+
+		if isinstance(self.file, list):
+			for fname in self.file:
+				fname = FileFormat(fname, [], [ 'domain' ])
+
+				for item in fname.data:
+					yield {
+						'func': self.ping_sitemap,
+						'option': item
+					}
+
+
+		else:
+
+			for item in self.file.data:
+				yield {
+					'func': self.ping_sitemap,
+					'option': item
+				}
+
+
+	def ping_sitemap(self, domain):
+
+		url = 'https://{}{}'.format(domain['domain'], self.path_sitemap)
+		if self.ping(url):
+			logger.info('sitemap {} submitted'.format(domain['domain']))
 
 
 	def run(self):
-		for domain in self.file.data:
-			url = 'https://{}{}'.format(domain['domain'], self.path_sitemap)
 
-			if self.ping(url):
-				logger.info('sitemap {} submitted'.format(domain['domain']))
+		worker = self.thread_count
+		
+		pool = Pool(worker)
 
+		funcs = self.get_task()
+
+		while True:
+			
+
+			if pool.full():
+				time.sleep(1)
+				continue
+
+			# getting func delete
+			try:
+				funcnya = next(funcs)
+				pool.spawn(funcnya['func'], funcnya['option'])
+			
+			except StopIteration as e:
+				
+				if pool.free_count() == worker:
+					break
+
+
+
+			time.sleep(1)
 
 
 
