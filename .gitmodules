@@ -1,0 +1,3 @@
+[submodule "vazutils"]
+	path = vazutils
+	url = https://gitlab.com/Vaziria/vazutils.git
