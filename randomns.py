@@ -24,7 +24,7 @@ class RandomNs:
 	limit_file = 100
 	limit_huruf = 3
 
-	def __init__(self, filename, limit_sub = 300, limit_huruf = 3):
+	def __init__(self, filename, limit_sub = 300, limit_huruf = [0, 3]):
 		self.file = FileFormat(filename, [ 'ip' ], [ 'domain' ])
 		self.limit_huruf = limit_huruf
 
@@ -49,7 +49,8 @@ class RandomNs:
 				fname = "dist/{}_out_{}.txt".format(domain, c_file)
 
 				while True:
-					sub = self.get_random(self.limit_huruf)
+					limit = random.randint(*self.limit_huruf)
+					sub = self.get_random(limit)
 					
 					if sub not in note:
 						break
