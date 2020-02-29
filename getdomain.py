@@ -89,9 +89,20 @@ class GetDomain:
 				count, hasil = self.user.get_expired(c)
 			except TableNotFound:
 				logger.info(c)
-				time.sleep(secs)
 				logger.info('sleep {} second'.format(20))
+				time.sleep(20)
 				count, hasil = self.user.get_expired(post=True)
+
+				continue
+
+			except TableNotFound:
+				logger.info(c)
+				logger.info('relogin')
+				self.user.login()
+				logger.info('sleep {} second'.format(20))
+				time.sleep(20)
+				count, hasil = self.user.get_expired(post=True)
+
 				continue
 
 			for domain in hasil:
