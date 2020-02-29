@@ -109,7 +109,7 @@ class ExpiredDomain(CommonRequest):
 
 		if post:
 			url = self.member_url('domains/combinedexpired/')
-			
+
 			req = self.CRequest('post', url, headers = headers, data=urlencode({'fonlycharhost': 1}))
 		else:
 			req = self.CRequest('get', url, headers = headers)
@@ -125,8 +125,12 @@ class ExpiredDomain(CommonRequest):
 			table = tree.xpath('//*/table[@class="base1"]')[0]
 		except IndexError as e:
 			raise TableNotFound
+			
+		try:
+			count = tree.xpath('//*/div[@class="infos form-inline"]/strong/text()')[1]
+		except IndexError as e:
+			raise TableNotFound
 
-		count = tree.xpath('//*/div[@class="infos form-inline"]/strong/text()')[1]
 		count = int(count.replace(',', ''))
 
 		return [count, self.parse_table(table)]
