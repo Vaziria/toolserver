@@ -93,7 +93,7 @@ class PingSitemap:
 			
 
 			if pool.full():
-				time.sleep(1)
+				time.sleep(0.01)
 				continue
 
 			# getting func delete
@@ -108,7 +108,7 @@ class PingSitemap:
 
 
 
-			time.sleep(1)
+			time.sleep(0.01)
 
 
 
