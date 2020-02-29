@@ -88,18 +88,18 @@ class GetDomain:
 			try:
 				count, hasil = self.user.get_expired(c)
 			except TableNotFound:
-				logger.info(c)
-				logger.info('sleep {} second'.format(20))
+				logger.error(c)
+				logger.error('sleep {} second'.format(20))
 				time.sleep(20)
 				count, hasil = self.user.get_expired(post=True)
 
 				continue
 
 			except TableNotFound:
-				logger.info(c)
-				logger.info('relogin')
+				logger.error(c)
+				logger.error('relogin')
 				self.user.login()
-				logger.info('sleep {} second'.format(20))
+				logger.error('sleep {} second'.format(20))
 				time.sleep(20)
 				count, hasil = self.user.get_expired(post=True)
 
