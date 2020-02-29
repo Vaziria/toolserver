@@ -15,6 +15,7 @@ class GetDomain:
 	user = ExpiredDomain('bimaseptian7', 'Balikpapan1*')
 	pref_name = 'domainexpired/domain_{}.txt'
 	delay = [0, 5]
+	c = 0
 
 
 	def __init__(self):
@@ -63,9 +64,11 @@ class GetDomain:
 	def write(self, domain):
 
 		with open('domain.txt', 'a+') as out:
-			out.write(domain)
+			out.write(domain + '\n')
 
-		logger.info('save {}'.format(domain))
+		self.c = self.c + 1
+
+		logger.info('{} save {}'.format(self.c, domain))
 
 
 
@@ -91,19 +94,21 @@ class GetDomain:
 				logger.error(c)
 				logger.error('sleep {} second'.format(20))
 				time.sleep(20)
-				count, hasil = self.user.get_expired(post=True)
+
+				try:
+					count, hasil = self.user.get_expired(post=True)
+				except TableNotFound:
+					logger.error(c)
+					logger.error('relogin')
+					self.user.login()
+					logger.error('sleep {} second'.format(20))
+					time.sleep(20)
+					count, hasil = self.user.get_expired(post=True)
+
+					continue
 
 				continue
 
-			except TableNotFound:
-				logger.error(c)
-				logger.error('relogin')
-				self.user.login()
-				logger.error('sleep {} second'.format(20))
-				time.sleep(20)
-				count, hasil = self.user.get_expired(post=True)
-
-				continue
 
 			for domain in hasil:
 				self.write(domain)
