@@ -92,7 +92,7 @@ class ExpiredDomain(CommonRequest):
 		return False
 
 
-	def get_expired(self, start = 0, post = False):
+	def get_expired(self, start = 0, post = False, referer = None):
 
 		urlparam = {
 				'start': start,
@@ -101,8 +101,11 @@ class ExpiredDomain(CommonRequest):
 
 		url = self.member_url('domains/combinedexpired/', urlparam)
 
+		if not referer:
+			referer = 'https://member.expireddomains.net/'
+
 		headers = {
-			# 'Referer': 'https://member.expireddomains.net/',
+			'Referer': referer,
 			'Origin': 'expireddomains.net',
 			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36',
 		}
@@ -110,9 +113,9 @@ class ExpiredDomain(CommonRequest):
 		if post:
 			url = self.member_url('domains/combinedexpired/')
 
-			req = self.CRequest('post', url, headers = headers, data=urlencode({'fonlycharhost': 1}))
+			req = self.CRequest('post', url, headers = headers, data=urlencode({'fonlycharhost': 1}), timeout=30)
 		else:
-			req = self.CRequest('get', url, headers = headers)
+			req = self.CRequest('get', url, headers = headers, timeout=30)
 
 		# self.test(req.text)
 
@@ -125,7 +128,7 @@ class ExpiredDomain(CommonRequest):
 			table = tree.xpath('//*/table[@class="base1"]')[0]
 		except IndexError as e:
 			raise TableNotFound
-			
+
 		try:
 			count = tree.xpath('//*/div[@class="infos form-inline"]/strong/text()')[1]
 		except IndexError as e:

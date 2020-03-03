@@ -14,7 +14,7 @@ class GetDomain:
 	thread_count = 10
 	user = ExpiredDomain('bimaseptian7', 'Balikpapan1*')
 	pref_name = 'domainexpired/domain_{}.txt'
-	delay = [0, 5]
+	delay = [3, 6]
 	c = 0
 
 
@@ -77,7 +77,10 @@ class GetDomain:
 		try:
 			count, hasil = self.user.get_expired()
 		except TableNotFound:
-			count, hasil = self.user.get_expired(post=True)
+			self.user.login()
+			logger.error('relogin sleep {} second'.format(20))
+			time.sleep(20)
+			return self.run()
 
 		for domain in hasil:
 			self.write(domain)
