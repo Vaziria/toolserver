@@ -5,14 +5,16 @@ import random
 from app.expired_domain import ExpiredDomain, TableNotFound
 from vazutils.logger import Logger
 
+from app.config import _config
+
 logger = Logger(__name__)
 
-
+_this_config = _config['get_expired_domain']
 
 class GetDomain:
 
 	thread_count = 10
-	user = ExpiredDomain('pardok', 'heri7777')
+	user = ExpiredDomain(_this_config['username'], _this_config['password'])
 	pref_name = 'domainexpired/domain_{}.txt'
 	delay = [3, 6]
 	c = 0

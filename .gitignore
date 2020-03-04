@@ -8,3 +8,5 @@ app/__pycache__/
 log
 
 domain.txt
+
+config.yaml

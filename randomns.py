@@ -5,6 +5,8 @@ import string
 from vazutils .file_format import FileFormat
 from vazutils.logger import Logger
 
+from app.config import _config
+
 logger = Logger(__name__)
 
 
@@ -16,19 +18,21 @@ _isi = """
 
 _line = "{sub}.{domain}.	1	IN	A	{ip}\n"
 
+_this_config = _config['random_sub']
+
 
 class RandomNs:
 
 	file = None
 	note = []
-	limit_file = 100
-	limit_huruf = 3
+	limit_file = _this_config.get('limit_file_line', 100)
+	limit_huruf = [1, 3]
 
-	def __init__(self, filename, limit_sub = 700, limit_huruf = [1, 3]):
+	def __init__(self, filename, limit_sub = 700):
 		self.file = FileFormat(filename, [ 'ip' ], [ 'domain' ])
-		self.limit_huruf = limit_huruf
+		self.limit_huruf = _this_config.get('limit_char', [1, 3])
 
-		self.limit_sub = limit_sub
+		self.limit_sub = _this_config.get('limit_sub', 700)
 
 	def generate(self):
 

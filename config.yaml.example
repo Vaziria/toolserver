@@ -1,0 +1,9 @@
+random_sub:
+  limit_char: [1, 3]
+  limit_sub: 700
+  limit_file_line: 100
+
+
+get_expired_domain:
+  username: pardok
+  password: heri7777
