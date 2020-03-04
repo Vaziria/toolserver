@@ -78,7 +78,7 @@ class PingSitemap:
 
 		url = 'https://{}{}'.format(domain['domain'], self.path_sitemap)
 		if self.ping(url):
-			logger.info('sitemap {} submitted'.format(domain['domain']))
+			logger.info('sitemap {} submitted'.format(url))
 
 
 	def run(self):

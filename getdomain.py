@@ -12,7 +12,7 @@ logger = Logger(__name__)
 class GetDomain:
 
 	thread_count = 10
-	user = ExpiredDomain('bimaseptian7', 'Balikpapan1*')
+	user = ExpiredDomain('pardok', 'heri7777')
 	pref_name = 'domainexpired/domain_{}.txt'
 	delay = [3, 6]
 	c = 0

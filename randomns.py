@@ -24,7 +24,7 @@ class RandomNs:
 	limit_file = 100
 	limit_huruf = 3
 
-	def __init__(self, filename, limit_sub = 300, limit_huruf = [0, 3]):
+	def __init__(self, filename, limit_sub = 700, limit_huruf = [1, 3]):
 		self.file = FileFormat(filename, [ 'ip' ], [ 'domain' ])
 		self.limit_huruf = limit_huruf
 

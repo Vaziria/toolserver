@@ -19,7 +19,7 @@ class ExpiredDomain(CommonRequest):
 
 	username = None
 	password = None
-	session = None
+	session = Session()
 
 	def __init__(self, user, pwd):
 		self.username = user
@@ -76,7 +76,7 @@ class ExpiredDomain(CommonRequest):
 		payload = {
 			'login': self.username,
 			'password': self.password,
-			'redirect_to_url': '/beginpage',
+			'redirect_to_url': '/startpage',
 			'rememberme': 1
 		}
 
@@ -87,35 +87,48 @@ class ExpiredDomain(CommonRequest):
 			return True
 
 		os.remove('data/session/{}.cache'.format(self.username))
+
+		with open('gagal.html', 'w+', encoding = 'utf8') as out:
+			out.write(req.text)
+		
 		logger.error('[ {} ] gagal login'.format(self.username))
 
 		return False
 
 
-	def get_expired(self, start = 0, post = False, referer = None):
-
-		urlparam = {
-				'start': start,
-				'fonlycharhost': 1
-			}
-
-		url = self.member_url('domains/combinedexpired/', urlparam)
-
-		if not referer:
-			referer = 'https://member.expireddomains.net/'
+	def get_expired(self, start = 0):
 
 		headers = {
-			'Referer': referer,
+			'Referer': 'https://member.expireddomains.net/domains/combinedexpired/',
 			'Origin': 'expireddomains.net',
 			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36',
 		}
 
-		if post:
-			url = self.member_url('domains/combinedexpired/')
+		if start == 0:
+			payload_post = 'fdomainstart=&fdomain=&fdomainend=&fdomainnotstart=&fdomainnot=&fdomainnotend=&fdomainand=&fcharwhite=&fcharwhiteany=&fcharwhiteall=&fcharblack=&fpattern=&fpatternnot=&fonlycharhost=1&fminhost=&fmaxhost=&fminhyphen=&fmaxhyphen=&fminvowelcount=&fmaxvowelcount=&fminconsonantcount=&fmaxconsonantcount=&fmincharcount=&fmaxcharcount=&fminnumbercount=&fmaxnumbercount=&fbl=&fblm=&facr=&facrm=&falexamin=&falexamax=&fwhoisagemax=0&fwhoisage=0&fabirth_yearmax=0&fabirth_year=0&fwordcountmin=&fwordcountmax=&fadddate=0&fenddate=0&fendname=0&fenddays=&fenddaysmax=&fprice=0&fprovidertype=0&fpricefrom=&fpriceto=&fbidmincount=&fbidmaxcount=&fvaluation=&fvaluationmax=&fregistrar=&flimit=25&ftldswhite=&ftldsblack=&fminstatustldreg=&fmaxstatustldreg=&fminstatustldreg32=&fmaxstatustldreg32=&fminstatustldava=&fmaxstatustldava=&fgeo_country=&frdcnobi=&frdcnobimax=&frdcnobis=&frdcnobismax=&frdcnobie=&frdcnobiemax=&frdcno=&frdcnomax=&frdcnos=&frdcnosmax=&frdcnoe=&frdcnoemax=&frdcom=&frdcommax=&frdcoms=&frdcomsmax=&frdcome=&frdcomemax=&fsg=&fsgmax=&fco=&fcomax=&fcpcfrom=&fcpcto=&fsd=&fsdmax=&fcode=&fcomaxde=&fcpcdfrom=&fcpcdto=&fsus=&fsusmax=&fcous=&fcomaxus=&fcpcusfrom=&fcpcusto=&fsuk=&fsukmax=&fcouk=&fcomaxuk=&fcpcukfrom=&fcpcukto=&fyandextci=&fyandextcimax=&fwikilinks=&fwikilinksmax=&fmajesticippop=&fmajesticippopmax=&fmajesticclasscpop=&fmajesticclasscpopmax=&fmgrmin=&fmgrmax=&fdomainpop=&fdomainpopmax=&flinkpop=&flinkpopmax=&fippop=&fippopmax=&fclasscpop=&fclasscpopmax=&fsrusrmin=&fsrusrmax=&fsruskmin=&fsruskmax=&fsrustmin=&fsrustmax=&fsruscmin=&fsruscmax=&fmseocf=&fmseocfmax=&fmseotf=&fmseotfmax=&fmseoextbl=&fmseoextblmax=&fmseorefdomains=&fmseorefdomainsmax=&fmseorefips=&fmseorefipsmax=&fmseorefsubnets=&fmseorefsubnetsmax=&fmseoindexedurls=&fmseoindexedurlsmax=&fmseocrawledurls=&fmseocrawledurlsmax=&fmseotr=&fmseotrmax=&fmseoreflangpa=&fmseoreflangpamax=&fmseolangpa=&fmseolangpamax=&fmseooutdoext=&fmseooutdoextmax=&fmseooutliext=&fmseooutliextmax=&fmseooutliint=&fmseooutliintmax=&fmseooutlipa=&fmseooutlipamax=&fmseorefdomlive=&fmseorefdomlivemax=&fmseorefdomfol=&fmseorefdomfolmax=&fmseorefdomhome=&fmseorefdomhomemax=&fmseorefdomdi=&fmseorefdomdimax=&fmseorefdomhttps=&fmseorefdomhttpsmax=&fmseorefdomainsedu=&fmseorefdomainsedumax=&fmseoextbacklinksedu=&fmseoextbacklinksedumax=&fmseorefdomainsgov=&fmseorefdomainsgovmax=&fmseoextbacklinksgov=&fmseoextbacklinksgovmax=&fmseorefdomainsedue=&fmseorefdomainseduemax=&fmseoextbacklinksedue=&fmseoextbacklinkseduemax=&fmseorefdomainsgove=&fmseorefdomainsgovemax=&fmseoextbacklinksgove=&fmseoextbacklinksgovemax=&q=&fsa=&savedsearch_id=&activetab=&bulkey=&button_submit=Apply+Filter'
+			
+			url = self.member_url('domains/combinedexpired/#listing')
 
-			req = self.CRequest('post', url, headers = headers, data=urlencode({'fonlycharhost': 1}), timeout=30)
+			req = self.CRequest('post', url, headers = headers, data=payload_post, timeout=30)
+
 		else:
+
+			headers['Referer'] = 'https://member.expireddomains.net/domains/combinedexpired/?start=100&flimit=100&fonlycharhost=1#listing'
+
+			urlparam = {
+					'start': start,
+					'fonlycharhost': 1
+				}
+
+			url = self.member_url('domains/combinedexpired/', urlparam) + '#listing'
+
 			req = self.CRequest('get', url, headers = headers, timeout=30)
+
+
+		# if post:
+		# 	url = self.member_url('domains/combinedexpired/')
+		# else:
+		# 	req = self.CRequest('get', url, headers = headers, timeout=30)
 
 		# self.test(req.text)
 
@@ -172,9 +185,9 @@ class ExpiredDomain(CommonRequest):
 
 if __name__ == '__main__':
 
-	test = ExpiredDomain('bimaseptian7', 'Balikpapan1*')
+	test = ExpiredDomain('pardok', 'heri7777')
 
-	if test.init_session():
+	if test.login():
 		print('get domain')
 
 		count, domain = test.get_expired()
