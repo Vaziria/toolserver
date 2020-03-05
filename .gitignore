@@ -10,3 +10,7 @@ log
 domain.txt
 
 config.yaml
+
+dist/*
+
+note/*
