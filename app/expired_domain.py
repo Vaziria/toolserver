@@ -21,11 +21,15 @@ class ExpiredDomain(CommonRequest):
 	password = None
 	session = Session()
 	path_domain = None
+	query = {}
 
-	def __init__(self, user, pwd, path_domain = 'domains/expiredcom/'):
+	def __init__(self, user, pwd, path_domain = 'domains/expiredcom/', query = {}):
 		self.username = user
 		self.password = pwd
 		self.path_domain = path_domain
+		self.query = query
+
+		logger.info('using query {}'.format(self.query))
 
 
 	def init_session(self):
@@ -121,6 +125,8 @@ class ExpiredDomain(CommonRequest):
 					'start': start,
 					'fonlycharhost': 1
 				}
+
+			urlparam.update(self.query)
 
 			url = self.member_url(self.path_domain, urlparam) + '#listing'
 

@@ -14,7 +14,7 @@ _this_config = _config['get_expired_domain']
 class GetDomain:
 
 	thread_count = 10
-	user = ExpiredDomain(_this_config['username'], _this_config['password'], _this_config['path_domain'])
+	user = ExpiredDomain(_this_config['username'], _this_config['password'], _this_config['path_domain'], _this_config['query'])
 	pref_name = 'domainexpired/domain_{}.txt'
 	delay = [3, 6]
 	c = 0

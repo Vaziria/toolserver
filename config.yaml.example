@@ -8,6 +8,8 @@ get_expired_domain:
   username: subbermanflow
   password: heri7777
   path_domain: domains/expiredcom/
+  query:
+  	fonlycharhost: 1
 
 
 mozscape:
