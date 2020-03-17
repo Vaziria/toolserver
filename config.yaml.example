@@ -5,5 +5,11 @@ random_sub:
 
 
 get_expired_domain:
-  username: pardok
+  username: subbermanflow
   password: heri7777
+  path_domain: domains/expiredcom/
+
+
+mozscape:
+  access_id: mozscape-88d2a40fad
+  secret_key: 7c687360f16e7e22c4f0750f12d1eb39

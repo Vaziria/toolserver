@@ -14,7 +14,7 @@ _this_config = _config['get_expired_domain']
 class GetDomain:
 
 	thread_count = 10
-	user = ExpiredDomain(_this_config['username'], _this_config['password'])
+	user = ExpiredDomain(_this_config['username'], _this_config['password'], _this_config['path_domain'])
 	pref_name = 'domainexpired/domain_{}.txt'
 	delay = [3, 6]
 	c = 0
@@ -101,14 +101,13 @@ class GetDomain:
 				time.sleep(20)
 
 				try:
-					count, hasil = self.user.get_expired(post=True)
+					count, hasil = self.user.get_expired()
 				except TableNotFound:
 					logger.error(c)
 					logger.error('relogin')
 					self.user.login()
 					logger.error('sleep {} second'.format(20))
 					time.sleep(20)
-					count, hasil = self.user.get_expired(post=True)
 
 					continue
 

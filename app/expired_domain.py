@@ -20,10 +20,12 @@ class ExpiredDomain(CommonRequest):
 	username = None
 	password = None
 	session = Session()
+	path_domain = None
 
-	def __init__(self, user, pwd):
+	def __init__(self, user, pwd, path_domain = 'domains/expiredcom/'):
 		self.username = user
 		self.password = pwd
+		self.path_domain = path_domain
 
 
 	def init_session(self):
@@ -99,7 +101,7 @@ class ExpiredDomain(CommonRequest):
 	def get_expired(self, start = 0):
 
 		headers = {
-			'Referer': 'https://member.expireddomains.net/domains/combinedexpired/',
+			'Referer': 'https://member.expireddomains.net/{}'.format(self.path_domain),
 			'Origin': 'expireddomains.net',
 			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36',
 		}
@@ -107,20 +109,20 @@ class ExpiredDomain(CommonRequest):
 		if start == 0:
 			payload_post = 'fdomainstart=&fdomain=&fdomainend=&fdomainnotstart=&fdomainnot=&fdomainnotend=&fdomainand=&fcharwhite=&fcharwhiteany=&fcharwhiteall=&fcharblack=&fpattern=&fpatternnot=&fonlycharhost=1&fminhost=&fmaxhost=&fminhyphen=&fmaxhyphen=&fminvowelcount=&fmaxvowelcount=&fminconsonantcount=&fmaxconsonantcount=&fmincharcount=&fmaxcharcount=&fminnumbercount=&fmaxnumbercount=&fbl=&fblm=&facr=&facrm=&falexamin=&falexamax=&fwhoisagemax=0&fwhoisage=0&fabirth_yearmax=0&fabirth_year=0&fwordcountmin=&fwordcountmax=&fadddate=0&fenddate=0&fendname=0&fenddays=&fenddaysmax=&fprice=0&fprovidertype=0&fpricefrom=&fpriceto=&fbidmincount=&fbidmaxcount=&fvaluation=&fvaluationmax=&fregistrar=&flimit=25&ftldswhite=&ftldsblack=&fminstatustldreg=&fmaxstatustldreg=&fminstatustldreg32=&fmaxstatustldreg32=&fminstatustldava=&fmaxstatustldava=&fgeo_country=&frdcnobi=&frdcnobimax=&frdcnobis=&frdcnobismax=&frdcnobie=&frdcnobiemax=&frdcno=&frdcnomax=&frdcnos=&frdcnosmax=&frdcnoe=&frdcnoemax=&frdcom=&frdcommax=&frdcoms=&frdcomsmax=&frdcome=&frdcomemax=&fsg=&fsgmax=&fco=&fcomax=&fcpcfrom=&fcpcto=&fsd=&fsdmax=&fcode=&fcomaxde=&fcpcdfrom=&fcpcdto=&fsus=&fsusmax=&fcous=&fcomaxus=&fcpcusfrom=&fcpcusto=&fsuk=&fsukmax=&fcouk=&fcomaxuk=&fcpcukfrom=&fcpcukto=&fyandextci=&fyandextcimax=&fwikilinks=&fwikilinksmax=&fmajesticippop=&fmajesticippopmax=&fmajesticclasscpop=&fmajesticclasscpopmax=&fmgrmin=&fmgrmax=&fdomainpop=&fdomainpopmax=&flinkpop=&flinkpopmax=&fippop=&fippopmax=&fclasscpop=&fclasscpopmax=&fsrusrmin=&fsrusrmax=&fsruskmin=&fsruskmax=&fsrustmin=&fsrustmax=&fsruscmin=&fsruscmax=&fmseocf=&fmseocfmax=&fmseotf=&fmseotfmax=&fmseoextbl=&fmseoextblmax=&fmseorefdomains=&fmseorefdomainsmax=&fmseorefips=&fmseorefipsmax=&fmseorefsubnets=&fmseorefsubnetsmax=&fmseoindexedurls=&fmseoindexedurlsmax=&fmseocrawledurls=&fmseocrawledurlsmax=&fmseotr=&fmseotrmax=&fmseoreflangpa=&fmseoreflangpamax=&fmseolangpa=&fmseolangpamax=&fmseooutdoext=&fmseooutdoextmax=&fmseooutliext=&fmseooutliextmax=&fmseooutliint=&fmseooutliintmax=&fmseooutlipa=&fmseooutlipamax=&fmseorefdomlive=&fmseorefdomlivemax=&fmseorefdomfol=&fmseorefdomfolmax=&fmseorefdomhome=&fmseorefdomhomemax=&fmseorefdomdi=&fmseorefdomdimax=&fmseorefdomhttps=&fmseorefdomhttpsmax=&fmseorefdomainsedu=&fmseorefdomainsedumax=&fmseoextbacklinksedu=&fmseoextbacklinksedumax=&fmseorefdomainsgov=&fmseorefdomainsgovmax=&fmseoextbacklinksgov=&fmseoextbacklinksgovmax=&fmseorefdomainsedue=&fmseorefdomainseduemax=&fmseoextbacklinksedue=&fmseoextbacklinkseduemax=&fmseorefdomainsgove=&fmseorefdomainsgovemax=&fmseoextbacklinksgove=&fmseoextbacklinksgovemax=&q=&fsa=&savedsearch_id=&activetab=&bulkey=&button_submit=Apply+Filter'
 			
-			url = self.member_url('domains/combinedexpired/#listing')
+			url = self.member_url('domains/expiredcom/#listing')
 
 			req = self.CRequest('post', url, headers = headers, data=payload_post, timeout=30)
 
 		else:
 
-			headers['Referer'] = 'https://member.expireddomains.net/domains/combinedexpired/?start=100&flimit=100&fonlycharhost=1#listing'
+			headers['Referer'] = 'https://member.expireddomains.net/{}?start=100&flimit=100&fonlycharhost=1#listing'.format(self.path_domain)
 
 			urlparam = {
 					'start': start,
 					'fonlycharhost': 1
 				}
 
-			url = self.member_url('domains/combinedexpired/', urlparam) + '#listing'
+			url = self.member_url(self.path_domain, urlparam) + '#listing'
 
 			req = self.CRequest('get', url, headers = headers, timeout=30)
 
