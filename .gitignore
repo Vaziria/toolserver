@@ -2,6 +2,9 @@
 app/__pycache__/__init__.cpython-37.pyc
 
 app/__pycache__/
+__pycache__
+alicateg
+datadomain/*
 
 *.cache
 

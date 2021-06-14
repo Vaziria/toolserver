@@ -1,0 +1,35 @@
+{
+    "url_single": [
+        "/product/{id}/{title}.html",
+        "/{id}/{title}.html",
+        "/item/{id}/{title}.html",
+        "/product/{title}/{id}.html",
+        "/product/{id}/{title}"
+    ],
+    "url_category": [
+        "/category-{id}/{key}.html",
+        "/categ-{id}/{key}.html",
+        "/category/{id}.html",
+        "/{key}/{id}.html",
+        "/cat{key}/{id}.html"
+    ],
+    "url_sitemap": [
+        "/{level}-{page}-product-{key}.xml",
+        "/{level}prod{page}-cat-{key}.xml",
+        "/{level}-{page}-best-{key}.xml",
+        "/{level}-{page}-product-{key}.xml",
+        "/{level}-{page}-archive{key}.xml"
+    ],
+    "url_image": [
+        "/image/{id}/{name}.jpg",
+        "/img{id}/{name}.jpg",
+        "/im/{name}/{id}.jpg",
+        "/asset/{name}/{id}.jpg",
+        "/image{id}.jpg",
+        "/assets/image{id}.jpg",
+        "/product/{name}--{id}.jpg",
+        "/productassets/{id}.jpg",
+        "/assetsproduct/{name}/{id}.jpg"
+    ],
+    "tema": ["breivik"]
+}

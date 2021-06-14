@@ -20,6 +20,10 @@ _line = "{sub}.{domain}.	1	IN	A	{ip}\n"
 
 _this_config = _config['random_sub']
 
+# print(_this_config)
+
+# exit()
+
 
 class RandomNs:
 
@@ -55,7 +59,7 @@ class RandomNs:
 				while True:
 					limit = random.randint(*self.limit_huruf)
 					sub = self.get_random(limit)
-					
+					 
 					if sub not in note:
 						note.append(sub)
 						break
