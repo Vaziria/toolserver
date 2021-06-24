@@ -31,5 +31,18 @@
         "/productassets/{id}.jpg",
         "/assetsproduct/{name}/{id}.jpg"
     ],
-    "tema": ["breivik"]
+    "tema": ["roman"],
+    "lang": [
+        "en",
+        "ko",
+        "de",
+        "tr",
+        "it",
+        "he",
+        "pl",
+        "fr",
+        "es",
+        "pt",
+        "ar"
+    ]
 }

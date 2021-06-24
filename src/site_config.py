@@ -27,6 +27,7 @@ class SiteConfig:
             "url_sitemap": random.choice(self.dataurl['url_sitemap']),
             "url_image": random.choice(self.dataurl['url_image']),
             "tema": random.choice(self.dataurl['tema']),
+            "lang": random.choice(self.dataurl['lang']),
         }
 
         if random.choice([True, False]):
@@ -46,6 +47,7 @@ class SiteConfig:
             # 'url_encript': 'on',
             # 'debug': 'on',
             'base_url': '',
+            # 'lang': 'en',
             # 'tema': 'breivik',
             # 'url_single': '/product/{id}/{title}.html',
             # 'url_category': '/categoury-{id}/{key}.html',

@@ -2,6 +2,7 @@ import json
 from src.file_ns import FileNs
 from src.site_config import SiteConfig
 
+
 class RandomizerConfig:
     domain: str = ''
     ip: str = ''
@@ -12,24 +13,32 @@ class RandomizerConfig:
         self.domain = name
         self.ip = ip
         self.ns = FileNs(name, ip)
-    
+
+    def get_keyword(self):
+        with open('keyword.json', 'r') as out:
+            datas = json.load(out)
+
+        return datas
+
     def get_categ(self):
         fname = 'alicateg'
 
-        with open (fname, 'r') as out:
+        with open(fname, 'r') as out:
             datas = json.load(out)
 
         for data in datas:
             if data['level'] > 2:
                 continue
 
-            yield data
+            yield data['key']
 
+    def run(self, usekeyword=False):
+        if usekeyword:
+            datas = self.get_keyword()
+        else:
+            datas = self.get_categ()
 
-    def run(self):
-        
-        for categ in self.get_categ():
-            key = categ['key']
+        for key in datas:
 
             self.ns.add(key)
             print('create {}.{}'.format(key, self.domain))
@@ -46,7 +55,9 @@ class RandomizerConfig:
 
 
 if __name__ == '__main__':
-    domain = RandomizerConfig('glenbrookmall.club', '45.77.173.71')
+    # domain = RandomizerConfig('glenbrookmall.club', '45.77.173.71')
+    domain = RandomizerConfig('zaramall.icu', '45.77.173.71')
 
+    # domain.run(True)
     # domain.run()
     domain.randomConfig()
